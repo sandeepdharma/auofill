@@ -16,10 +16,11 @@ function App() {
     if (data.length > 3) {
       let filteredData = apiData.filter((i) => {
         let apiName = i.API.toLowerCase();
+        let matchedApi;
         if (apiName.match(data.toLowerCase())) {
-          return i.API;
+          matchedApi =  i.API;
         }
-        
+        return matchedApi
       });
       console.log(filteredData)
       if (filteredData.length > 0) {
