@@ -6,8 +6,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: rgb(167, 28, 28);
-  font-family: Roboto, 'Segoe UI', Tahoma, sans-serif;
-    font-size: 81.25%;
+  font-family: Sans-serif;
+    /* font-size: 81.25%; */
 }
 
 code {

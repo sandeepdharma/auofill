@@ -1,8 +1,25 @@
-.form {
+.form-container {
     width: 42%;
     margin: auto;
-    margin-top: 10%;
+    margin-top: 7.5%;
     text-align: center;
+    // border: 1px solid white;
+
+    .logo-google {
+        height: 12%;
+        width: 70%;
+        // border: 1px solid white;
+    }
+
+    .logo-voice {
+        height: 1.4em;
+        margin-right: 7%;
+    }
+
+    .ant-input:placeholder-shown {
+        color: black;
+        opacity: 1.7;
+    }
 
     .title {
         color: aliceblue;
@@ -12,12 +29,15 @@
 
     .ant-input {
         margin-left: 3%;
+
     }
 
     .input-curve-disable {
         .ant-input-affix-wrapper-lg {
             border-radius: 25px;
             background-color: white;
+            height: 2.7em;
+            width: 100%;
         }
     }
 
@@ -27,6 +47,7 @@
             border-bottom-left-radius: 0px;
             border-bottom-right-radius: 0px;
             background-color: white;
+            width: 100%;
 
         }
     }
@@ -41,3 +62,12 @@
         margin: 0%;
     }
 }
+
+
+@media only screen and (max-width: 1024px) {
+    .form-container {
+       width: 80%;
+       margin: auto;
+       margin-top: 2%;
+    }
+ }
