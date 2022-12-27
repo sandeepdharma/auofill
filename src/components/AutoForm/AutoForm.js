@@ -7,7 +7,7 @@ import { MyContext } from "../../context";
 const AutoForm = () => {
   const [autofillForm] = Form.useForm();
   const { updatedValue } = React.useContext(MyContext);
-
+const {getPressedKey} = React.useContext(MyContext)
   function debounce(func) {
     let timer;
     return (...args) => {
@@ -29,6 +29,9 @@ const AutoForm = () => {
   const onChangeHandler = (e, getChangeValue) => {
     getChangeValue(e.target.value);
   };
+  const onKeyPress = (e) => {
+    getPressedKey(e.keyCode)
+  }
   useEffect(() => {
     if (updatedValue !== undefined) {
       autofillForm.resetFields();
@@ -40,8 +43,8 @@ const AutoForm = () => {
         return (
           <div className="form-container">
             <img
-              src="/googleLarge.png"
-              alt="google-logo"
+              src="googleLarge.png"
+              alt="google-logo" 
               className="logo-google"
             />
             <Form
@@ -67,13 +70,14 @@ const AutoForm = () => {
                   prefix={<SearchOutlined className="search-icon" />}
                   suffix={
                     <img
-                      src="/google-voice.png"
+                      src="google-voice.png"
                       alt="voice"
                       className="logo-voice"
                     />
                   }
                   placeholder="Search Google or type a URL"
                   onChange={(e) => onChangeHandler(e, getChangeValue)}
+                  onKeyDown={(e)=> onKeyPress(e)}
                   defaultValue={updatedValue}
                 />
               </Form.Item>

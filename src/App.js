@@ -11,27 +11,44 @@ function App() {
   const [updatedValue, setUpdatedValue] = useState("");
 
   const getChangeValue = (data) => {
-    console.log(data.length)
-    setShowList(false)
+    console.log(data.length);
+    setShowList(false);
     if (data.length > 3) {
       let filteredData = apiData.filter((i) => {
         let apiName = i.API.toLowerCase();
-        let matchedApi;
+        let matchedAPIs;
         if (apiName.match(data.toLowerCase())) {
-          matchedApi =  i.API;
+          matchedAPIs = i.API;
         }
-        return matchedApi
+        return matchedAPIs;
       });
-      console.log(filteredData)
+      console.log(filteredData);
       if (filteredData.length > 0) {
         setUpdatedList(filteredData);
         setShowList(true);
-      }else{
-        console.log('no data found')
+      } else {
+        console.log("no data found in API");
       }
     } else {
       setShowList(false);
     }
+  };
+  const [count, setCount] = useState(0);
+  const getPressedKey = (key) => {
+    if (key === 40) {
+      if (count !== updatedList.length - 1) {
+        setCount(count + 1);
+      }
+    } else if (key === 38) {
+      if (count > -1) {
+        setCount(count - 1);
+      }
+    }
+    if (updatedList) {
+      console.log(updatedList[count].API);
+      setUpdatedValue(updatedList[count].API);
+    }
+    console.log("count : ", count);
   };
 
   const getSelectedValue = (value) => {
@@ -47,9 +64,10 @@ function App() {
           updatedValue,
           updatedList,
           getSelectedValue,
+          getPressedKey,
         }}
       >
-        <AutoForm/>
+        <AutoForm />
         {showList === true ? <AutoList /> : null}
       </MyContext.Provider>
     </div>
