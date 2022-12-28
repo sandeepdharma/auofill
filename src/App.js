@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.scss";
 import AutoForm from "./components/AutoForm/AutoForm";
 import AutoList from "./components/AutoList/AutoList";
@@ -9,9 +9,10 @@ function App() {
   const [updatedList, setUpdatedList] = useState();
   const [showList, setShowList] = useState(false);
   const [updatedValue, setUpdatedValue] = useState("");
+  const [count, setCount] = useState(0);
 
+ 
   const getChangeValue = (data) => {
-    console.log(data.length);
     setShowList(false);
     if (data.length > 3) {
       let filteredData = apiData.filter((i) => {
@@ -22,34 +23,51 @@ function App() {
         }
         return matchedAPIs;
       });
-      console.log(filteredData);
       if (filteredData.length > 0) {
         setUpdatedList(filteredData);
         setShowList(true);
       } else {
-        console.log("no data found in API");
       }
     } else {
       setShowList(false);
     }
   };
-  const [count, setCount] = useState(0);
+  const downArrowHandler = () => { 
+    if (count !== updatedList.length - 1) {
+      setCount(count + 1);
+    }
+  };
+
+  const upArrowHandler = () => {
+    if (count > -1) {
+      setCount(count - 1);
+    }
+  };
+  const enterPressHandler = () => {
+    let link = updatedList[count].Link
+      window.location.href = link
+  };
   const getPressedKey = (key) => {
     if (key === 40) {
-      if (count !== updatedList.length - 1) {
-        setCount(count + 1);
-      }
+      downArrowHandler();
     } else if (key === 38) {
-      if (count > -1) {
-        setCount(count - 1);
-      }
+      upArrowHandler();
+    } else if (key === 13) {
+      enterPressHandler();
     }
-    if (updatedList) {
-      console.log(updatedList[count].API);
+  };
+  useEffect(() => {
+    const defaultValueList = () => {
+      setUpdatedValue(updatedList[0].API)
+    }
+    if (updatedList){
+      defaultValueList()
+    }
+    if (count > 0) {
       setUpdatedValue(updatedList[count].API);
     }
-    console.log("count : ", count);
-  };
+  }, [updatedList, count]);
+
 
   const getSelectedValue = (value) => {
     setUpdatedValue(value.API);

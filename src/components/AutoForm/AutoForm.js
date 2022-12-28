@@ -7,7 +7,7 @@ import { MyContext } from "../../context";
 const AutoForm = () => {
   const [autofillForm] = Form.useForm();
   const { updatedValue } = React.useContext(MyContext);
-const {getPressedKey} = React.useContext(MyContext)
+  const { getPressedKey } = React.useContext(MyContext);
   function debounce(func) {
     let timer;
     return (...args) => {
@@ -15,23 +15,20 @@ const {getPressedKey} = React.useContext(MyContext)
       timer = setTimeout(() => {
         func.apply(this, args);
       }, 3000);
-      console.log("dbouncing working");
     };
   }
   const submitForm = () => {
     autofillForm.resetFields();
-    console.log("submit working");
   };
   const formSubmitHandler = () => {
     debounce(() => submitForm());
-    console.log("form submit handler");
   };
   const onChangeHandler = (e, getChangeValue) => {
     getChangeValue(e.target.value);
   };
   const onKeyPress = (e) => {
-    getPressedKey(e.keyCode)
-  }
+    getPressedKey(e.keyCode);
+  };
   useEffect(() => {
     if (updatedValue !== undefined) {
       autofillForm.resetFields();
@@ -44,7 +41,7 @@ const {getPressedKey} = React.useContext(MyContext)
           <div className="form-container">
             <img
               src="googleLarge.png"
-              alt="google-logo" 
+              alt="google-logo"
               className="logo-google"
             />
             <Form
@@ -77,7 +74,7 @@ const {getPressedKey} = React.useContext(MyContext)
                   }
                   placeholder="Search Google or type a URL"
                   onChange={(e) => onChangeHandler(e, getChangeValue)}
-                  onKeyDown={(e)=> onKeyPress(e)}
+                  onKeyDown={(e) => onKeyPress(e)}
                   defaultValue={updatedValue}
                 />
               </Form.Item>
