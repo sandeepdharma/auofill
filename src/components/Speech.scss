@@ -1,0 +1,34 @@
+.speech-modal {
+   
+    height: 70vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.speech-matter {
+    margin: auto;
+}
+
+.speech-icon-container {
+    border-radius: 50%;
+    width: 18vw;
+    height: 35vh;
+    margin: auto;
+    text-align: center;
+    padding: 2%;
+}
+
+.icon-activate {
+ 
+    font-size: 10em;
+    background-color: white;
+    color: green;
+    border-color: transparent;
+
+}
+.icon-deactivate {
+    font-size: 10em;
+    background-color: white;
+    color: red;
+    border-color: transparent;
+}

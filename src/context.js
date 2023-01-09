@@ -7,6 +7,7 @@ const getDataFromAPI = async () => {
   await Axios.get("https://api.publicapis.org/entries")
     .then((result) => {
       let num = result.data.entries;
+      console.log(num)
       num.forEach((element) => {
         apiData.push(element);
       })

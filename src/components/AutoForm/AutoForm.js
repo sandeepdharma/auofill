@@ -1,20 +1,24 @@
 import "./AutoForm.scss";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { MyContext } from "../../context";
-
+import { Modal } from "antd";
+import Speech from "../Speech";
 const AutoForm = () => {
+  const [open, setOpen] = useState(false);
   const [autofillForm] = Form.useForm();
   const { updatedValue } = React.useContext(MyContext);
   const { getPressedKey } = React.useContext(MyContext);
-  function debounce(func) {
+  const { getSpeechData } = React.useContext(MyContext);
+
+  function debounce(func, time) {
     let timer;
     return (...args) => {
       clearTimeout(timer);
       timer = setTimeout(() => {
         func.apply(this, args);
-      }, 3000);
+      }, time);
     };
   }
   const submitForm = () => {
@@ -29,11 +33,17 @@ const AutoForm = () => {
   const onKeyPress = (e) => {
     getPressedKey(e.keyCode);
   };
+  const getVoiceRecognitionData = (data) => {
+    setOpen(false);
+    getSpeechData(data);
+  };
+
   useEffect(() => {
     if (updatedValue !== undefined) {
       autofillForm.resetFields();
     }
   }, [updatedValue, autofillForm]);
+
   return (
     <MyContext.Consumer>
       {({ getChangeValue, showList, updatedValue }) => {
@@ -70,6 +80,7 @@ const AutoForm = () => {
                       src="google-voice.png"
                       alt="voice"
                       className="logo-voice"
+                      onClick={() => setOpen(true)}
                     />
                   }
                   placeholder="Search Google or type a URL"
@@ -78,6 +89,15 @@ const AutoForm = () => {
                   defaultValue={updatedValue}
                 />
               </Form.Item>
+              <Modal
+                centered
+                open={open}
+                onOk={() => setOpen(false)}
+                onCancel={() => setOpen(false)}
+                width={1000}
+              >
+                <Speech getVoiceRecognitionData={getVoiceRecognitionData} />
+              </Modal>
             </Form>
           </div>
         );

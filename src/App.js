@@ -9,9 +9,8 @@ function App() {
   const [updatedList, setUpdatedList] = useState();
   const [showList, setShowList] = useState(false);
   const [updatedValue, setUpdatedValue] = useState("");
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(-1);
 
- 
   const getChangeValue = (data) => {
     setShowList(false);
     if (data.length > 3) {
@@ -32,20 +31,24 @@ function App() {
       setShowList(false);
     }
   };
-  const downArrowHandler = () => { 
-    if (count !== updatedList.length - 1) {
-      setCount(count + 1);
+  const downArrowHandler = () => {
+    if (count === -1) {
+      setCount(0);
     }
+    if (count < updatedList.length - 1) setCount(count + 1);
   };
-
   const upArrowHandler = () => {
     if (count > -1) {
-      setCount(count - 1);
+    setCount(count - 1);
     }
   };
+  const directToLink = () => {
+    let link = updatedList[count].Link;
+    window.location.href = link;
+  };
   const enterPressHandler = () => {
-    let link = updatedList[count].Link
-      window.location.href = link
+    // debounce(directToLink,3000)
+    directToLink();
   };
   const getPressedKey = (key) => {
     if (key === 40) {
@@ -56,22 +59,32 @@ function App() {
       enterPressHandler();
     }
   };
-  useEffect(() => {
-    const defaultValueList = () => {
-      setUpdatedValue(updatedList[0].API)
-    }
-    if (updatedList){
-      defaultValueList()
-    }
-    if (count > 0) {
-      setUpdatedValue(updatedList[count].API);
-    }
-  }, [updatedList, count]);
-
-
   const getSelectedValue = (value) => {
     setUpdatedValue(value.API);
   };
+  const getSpeechData = (data) => {
+    if (data) {
+      let filteredData = apiData.filter((i) => {
+        let apiName = i.API.toLowerCase();
+        let matchedAPIs;
+        if (apiName.match(data.toLowerCase())) {
+          matchedAPIs = i.API;
+        }
+        return matchedAPIs;
+      });
+      if (filteredData.length > 0) {
+        setUpdatedList(filteredData);
+        setShowList(true);
+      }
+    }
+  };
+  useEffect(() => {
+    if (updatedList) {
+      if (count > -1) {
+        setUpdatedValue(updatedList[count].API);
+      }
+    }
+  }, [updatedList, count]);
 
   return (
     <div className="App">
@@ -83,6 +96,7 @@ function App() {
           updatedList,
           getSelectedValue,
           getPressedKey,
+          getSpeechData,
         }}
       >
         <AutoForm />
